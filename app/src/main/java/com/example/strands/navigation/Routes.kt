@@ -6,7 +6,7 @@ sealed class Routes(val routes: String) {
     data object Profile: Routes("profile")
     data object Search: Routes("search")
     data object Splash: Routes("splash")
-    data object AddThread: Routes("addThread")
+    data object AddStrands: Routes("addStrands")
     data object BottomNav: Routes("bottomNav")
     data object Login: Routes("login")
     data object Register: Routes("register")

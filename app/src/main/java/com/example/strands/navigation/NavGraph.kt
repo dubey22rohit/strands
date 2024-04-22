@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.strands.screens.AddThreads
+import com.example.strands.screens.AddStrands
 import com.example.strands.screens.BottomNav
 import com.example.strands.screens.Home
 import com.example.strands.screens.Login
@@ -21,7 +21,7 @@ fun NavGraph(navController: NavHostController) {
             Splash(navController)
         }
         composable(Routes.Home.routes) {
-            Home()
+            Home(navController)
         }
         composable(Routes.Notification.routes) {
             Notification()
@@ -29,8 +29,8 @@ fun NavGraph(navController: NavHostController) {
         composable(Routes.Search.routes) {
             Search()
         }
-        composable(Routes.AddThread.routes) {
-            AddThreads(navController)
+        composable(Routes.AddStrands.routes) {
+            AddStrands(navController)
         }
         composable(Routes.Profile.routes) {
             Profile(navController)

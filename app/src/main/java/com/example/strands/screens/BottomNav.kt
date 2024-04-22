@@ -33,13 +33,13 @@ fun BottomNav(navHostController: NavHostController) {
             modifier = Modifier.padding(innerPadding),
         ) {
             composable(route = Routes.Home.routes) {
-                Home()
+                Home(navController)
             }
             composable(route = Routes.Search.routes) {
                 Search()
             }
-            composable(route = Routes.AddThread.routes) {
-                AddThreads(navController)
+            composable(route = Routes.AddStrands.routes) {
+                AddStrands(navController)
             }
             composable(route = Routes.Notification.routes) {
                 Notification()
@@ -68,8 +68,8 @@ fun MyBottomBar(navController: NavHostController) {
             Icons.Rounded.Search,
         ),
         BottomNavItem(
-            title = "Add Threads",
-            Routes.AddThread.routes,
+            title = "Add Strands",
+            Routes.AddStrands.routes,
             Icons.Rounded.Add,
         ),
         BottomNavItem(

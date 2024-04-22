@@ -40,7 +40,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -51,17 +50,17 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.strands.R
 import com.example.strands.navigation.Routes
 import com.example.strands.utils.SharedPref
-import com.example.strands.viewmodel.AddThreadViewModel
+import com.example.strands.viewmodel.AddStrandViewModel
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
-fun AddThreads(navController: NavHostController) {
+fun AddStrands(navController: NavHostController) {
     val context = LocalContext.current
 
-    val threadViewModel: AddThreadViewModel = viewModel()
+    val threadViewModel: AddStrandViewModel = viewModel()
     val isPosted by threadViewModel.isPosted.observeAsState(false)
 
-    var stringText by remember {
+    var strand by remember {
         mutableStateOf("")
     }
 
@@ -88,12 +87,12 @@ fun AddThreads(navController: NavHostController) {
 
     LaunchedEffect(isPosted) {
         if (isPosted) {
-            stringText = ""
+            strand = ""
             imageUri = null
             Toast.makeText(context, "New Post Added!", Toast.LENGTH_SHORT).show()
 
             navController.navigate(Routes.Home.routes) {
-                popUpTo(Routes.AddThread.routes) {
+                popUpTo(Routes.AddStrands.routes) {
                     inclusive = true
                 }
                 launchSingleTop = true
@@ -120,7 +119,7 @@ fun AddThreads(navController: NavHostController) {
                 }
                 .clickable {
                     navController.navigate(Routes.Home.routes) {
-                        popUpTo(Routes.AddThread.routes) {
+                        popUpTo(Routes.AddStrands.routes) {
                             inclusive = true
                         }
                         launchSingleTop = true
@@ -128,7 +127,7 @@ fun AddThreads(navController: NavHostController) {
                 }
         )
 
-        Text(text = "Add String", style = TextStyle(
+        Text(text = "Add Strand", style = TextStyle(
             fontWeight = FontWeight.Bold,
             fontSize = 16.sp
         ),
@@ -164,8 +163,8 @@ fun AddThreads(navController: NavHostController) {
 
         BasicTextFieldWithHint(
             hint = "Start typing...",
-            value = stringText,
-            onValueChange = { stringText = it },
+            value = strand,
+            onValueChange = { strand = it },
             modifier = Modifier.constrainAs(editText) {
                 top.linkTo(username.bottom, margin = 12.dp)
                 start.linkTo(username.start)
@@ -229,17 +228,17 @@ fun AddThreads(navController: NavHostController) {
                 if (imageUri == null) {
                     FirebaseAuth.getInstance().currentUser?.let {
                         threadViewModel.saveData(
-                            stringText,
-                            it.uid,
-                            ""
+                            strand = strand,
+                            userId = it.uid,
+                            imageUri = ""
                         )
                     }
                 } else {
                     FirebaseAuth.getInstance().currentUser?.let {
                         threadViewModel.saveImage(
-                            stringText,
-                            it.uid,
-                            imageUri!!
+                            strand = strand,
+                            userId = it.uid,
+                            imageUri = imageUri!!
                         )
                     }
                 }

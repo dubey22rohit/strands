@@ -1,24 +1,16 @@
 package com.example.strands.viewmodel
 
-import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.strands.model.StringModel
-import com.example.strands.model.UserModel
-import com.example.strands.utils.SharedPref
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
+import com.example.strands.model.StrandModel
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import java.util.UUID
 
-class AddThreadViewModel : ViewModel() {
+class AddStrandViewModel : ViewModel() {
 
     private val db = FirebaseDatabase.getInstance()
     private var threadRef = db.getReference("threads")
@@ -31,24 +23,24 @@ class AddThreadViewModel : ViewModel() {
 
 
     fun saveImage(
-        stringText: String,
+        strand: String,
         userId: String,
         imageUri: Uri?,
     ) {
         imageUri?.let { imageRef.putFile(imageUri) }?.addOnSuccessListener {
             imageRef.downloadUrl.addOnSuccessListener {
-                saveData(stringText, userId, it.toString())
+                saveData(strand, userId, it.toString())
             }
         }
     }
 
     fun saveData(
-        stringText: String,
+        strand: String,
         userId: String,
         imageUri: String
     ) {
         val threadData =
-            StringModel(stringText, imageUri, userId, System.currentTimeMillis().toString())
+            StrandModel(strand, imageUri, userId, System.currentTimeMillis().toString())
         threadRef.child(threadRef.push().key!!).setValue(threadData)
             .addOnSuccessListener {
                 _isPosted.postValue(true)

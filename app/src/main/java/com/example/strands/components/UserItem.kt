@@ -1,6 +1,7 @@
 package com.example.strands.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -23,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.example.strands.R
@@ -31,20 +33,18 @@ import com.example.strands.model.UserModel
 import com.example.strands.utils.SharedPref
 
 @Composable
-fun StrandItem(
-    strand: StrandModel,
+fun UserItem(
     user: UserModel,
     navController: NavHostController,
-    userId: String?,
 ) {
     Column {
         ConstraintLayout(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(vertical = 16.dp, horizontal = 24.dp)
         ) {
 
-            val (userImage, username, date, time, title, image) = createRefs()
+            val (userImage, username, bio) = createRefs()
 
             Image(
                 painter = rememberAsyncImagePainter(model = user.imageUrl),
@@ -70,36 +70,23 @@ fun StrandItem(
                     .constrainAs(username) {
                         top.linkTo(userImage.top)
                         start.linkTo(userImage.end)
-                        bottom.linkTo(userImage.bottom)
                     }
             )
 
-            Text(
-                text = strand.stringText,
-                style = TextStyle(
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp
-                ),
-                modifier = Modifier.constrainAs(title) {
-                    top.linkTo(username.bottom)
-                    start.linkTo(username.start)
-                }
-            )
-
-            if (strand.imageUrl != "") {
-                Image(
-                    painter = rememberAsyncImagePainter(model = strand.imageUrl),
-                    contentDescription = "close",
+            user.bio?.let {
+                Text(
+                    text = it,
+                    style = TextStyle(
+                        fontWeight = FontWeight.Normal,
+                        fontSize = 16.sp
+                    ),
                     modifier = Modifier
-                        .constrainAs(image) {
-                            top.linkTo(title.bottom)
-                            start.linkTo(parent.start)
-                            end.linkTo(parent.end)
+                        .padding(start = 12.dp, end = 12.dp)
+                        .constrainAs(bio) {
+                            top.linkTo(username.bottom)
+                            start.linkTo(username.start)
+
                         }
-                        .fillMaxWidth()
-                        .height(200.dp)
-                        .clip(RoundedCornerShape(10.dp)),
-                    contentScale = ContentScale.Fit
                 )
             }
         }

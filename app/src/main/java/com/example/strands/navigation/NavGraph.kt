@@ -27,7 +27,7 @@ fun NavGraph(navController: NavHostController) {
             Notification()
         }
         composable(Routes.Search.routes) {
-            Search()
+            Search(navController)
         }
         composable(Routes.AddStrands.routes) {
             AddStrands(navController)

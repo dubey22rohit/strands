@@ -137,7 +137,7 @@ fun Profile(navController: NavHostController) {
                     strand = pair,
                     user = user,
                     navController,
-                    userId = SharedPref.getUsername(context)
+                    userId = FirebaseAuth.getInstance().currentUser?.uid
                 )
             }
         }

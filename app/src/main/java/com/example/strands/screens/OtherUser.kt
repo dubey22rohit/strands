@@ -19,7 +19,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -29,16 +28,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.example.strands.components.StrandItem
-import com.example.strands.viewmodel.AuthViewModel
 import com.example.strands.viewmodel.UserViewModel
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun OtherUser(navController: NavHostController, uid: String) {
-    val context = LocalContext.current
-
-    val authViewModel: AuthViewModel = viewModel()
-    val firebaseUser by authViewModel.firebaseUser.observeAsState(null)
 
     val userViewModel: UserViewModel = viewModel()
     val strands by userViewModel.threads.observeAsState(null)
@@ -97,7 +91,7 @@ fun OtherUser(navController: NavHostController, uid: String) {
         }
 
         ElevatedButton(
-            onClick = { authViewModel.logout() },
+            onClick = { },
             modifier = Modifier
                 .constrainAs(logoutButton) {
                     top.linkTo(bio.bottom, margin = 24.dp)
@@ -114,8 +108,6 @@ fun OtherUser(navController: NavHostController, uid: String) {
             top.linkTo(logoutButton.bottom, margin = 24.dp)
         }) {
             if (strands != null && users != null) {
-
-
                 items(strands ?: emptyList()) { pair ->
                     StrandItem(
                         strand = pair,

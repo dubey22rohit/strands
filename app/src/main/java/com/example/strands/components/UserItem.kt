@@ -2,6 +2,7 @@ package com.example.strands.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -30,6 +31,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.strands.R
 import com.example.strands.model.StrandModel
 import com.example.strands.model.UserModel
+import com.example.strands.navigation.Routes
 import com.example.strands.utils.SharedPref
 
 @Composable
@@ -40,8 +42,12 @@ fun UserItem(
     Column {
         ConstraintLayout(
             modifier = Modifier
-                .fillMaxWidth()
                 .padding(vertical = 16.dp, horizontal = 24.dp)
+                .fillMaxWidth()
+                .clickable {
+                    val route = Routes.OtherUser.routes.replace("{uid}", user.uid)
+                    navController.navigate(route)
+                }
         ) {
 
             val (userImage, username, bio) = createRefs()
